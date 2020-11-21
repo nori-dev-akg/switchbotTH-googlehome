@@ -16,7 +16,10 @@
 - castv2-client
 - VoiceText
 - node-switchbot
-- Ambient(予め準備しておく：[Ambient](https://ambidata.io/refs/node-js/))
+- ~~Ambient(予め準備しておく：[Ambient](https://ambidata.io/refs/node-js/))~~
+
+Ambient ヤメました。1年間しか保存できないので、Google Spredsheetにしました。
+
 
 ## Raspberry Pi OS
 RaspberryPiのインストールは済んでいるもとします。
@@ -49,13 +52,10 @@ https://github.com/nori-dev-akg/switchbotTH-googlehome
 ~/switchbotTH-googlehome $ npm init --yes         #作業用ディレクトリ初期化
 #以降、作業用ディレクトリで行う
 ```
-# Ambient
-せっかくなので Ambient でログも取っておく
-Ambientライブラリをインストール
+# ログ
+せっかくなので Googleスプレッドシート でログも取っておく
+[ラズパイからGoogleスプレッドシートへ送信](https://jellyware.jp/kurage/raspi/google_spreadsheet.html)を参考に 送信先URL を準備しておく
 
-```bash
-~/switchbotTH-googlehome $ npm install ambient-lib
-```
 
 # node-switchbot
 Bluetooth用モジュールと node-switchbotライブラリをインストール
@@ -100,7 +100,7 @@ npm install時にwarningが出るけどスルー
 - GoogleHome のIPアドレス
 - VoiceText APIキー
 - SwitchBot IPアドレス
-- Ambient チャンネルID, ライトキー
+- GoogleスプレッドシートのURL
 
 ソースでは「20度以上で45%以下になったら通知」となっているので適宜。
 メッセージも「乾燥しています」となっているので適宜。
@@ -114,12 +114,11 @@ const rapsberrypi_ip = '192.168.0.31';
 const googlehome_ip = '192.168.0.200';
 const voicetext_key = 'xxxxxxxxxxxxxxx';
 const switchbot_ip = 'xx:xx:xx:xx:xx:xx';
-const ambient_id = 9999; // Ambient チャンネルID
-const ambient_key ='xxxxxxxxxxxxxx'; // Ambient ライトキー
 const message = '乾燥しています';
 const speaker = 'haruka'; //'show', 'haruka', 'hikari', 'takeru', 'santa', 'bear'
 const min_temp = 20; // 20度以上
 const min_humi = 45; // 45%以下
+const spreadsheet_url = "https://script.google.com/macros/s/xxxxxxxxxxxxxxxxxx/exec";
          :
 ```
 
@@ -136,7 +135,7 @@ status broadcast playerState=PLAYING content=http://192.168.0.31:8080/voicetext/
 上記のようになり、GoogleHomeから「乾燥しています」が聞こえればOK。
 
 ###動かないときは
-- ```RaspberryPiのIPアドレス``` ```VoiceTextのAPIキー``` ```GoogleHomeのIPアドレス``` ```Ambient チャンネルID, ライトキー``` ```SwitchBot IP```をもう一度確認する。
+- ```RaspberryPiのIPアドレス``` ```VoiceTextのAPIキー``` ```GoogleHomeのIPアドレス``` ```SwitchBot IP```をもう一度確認する。
 
 - 特に ```RaspberryPiのIPアドレス``` と ```GoogleHomeのIPアドレス```が間違いやすい！！
 
@@ -170,5 +169,14 @@ forever start /home/pi/castv2-googlehome/api.js
 
 exit 0
 ```
+
+# おわりに
+以下、ログのグラフを添付します。
+
+![image](https://docs.google.com/spreadsheets/d/e/2PACX-1vSoRRDT8F1nQOqfd-rysi_bVRijkRGz87j7cxXxfipAcJ9YqZMTwGyfTvacrCPRxDwoN6HlwBqscWHe/pubchart?oid=530889478&format=image)
+
+
+# Special Thanks!!!
+[ラズパイからGoogleスプレッドシートへ送信](https://jellyware.jp/kurage/raspi/google_spreadsheet.html)
 
 以上。
